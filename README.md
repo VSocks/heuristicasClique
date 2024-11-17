@@ -1,0 +1,1 @@
+Esse programa é um projeto de faculdade que busca utilizar dois algoritmos diferentes (um de busca local e outro evolutivo) para encontrar soluções do problema do clique máximo.
