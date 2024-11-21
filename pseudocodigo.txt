@@ -1,0 +1,82 @@
+FUNÇÃO read_graph(arquivo, matriz, n)
+    ABRIR arquivo
+    SE arquivo NÃO EXISTE
+        MOSTRAR erro e SAIR
+    LER número de nós (n)
+    PARA cada linha i em [0, n-1]
+        PARA cada coluna j em [0, n-1]
+            LER matriz[i][j]
+    FECHAR arquivo
+
+FUNÇÃO is_clique(matriz, clique, tamanho)
+    PARA cada par (i, j) em clique
+        SE matriz[clique[i]][clique[j]] == 0
+            RETORNAR FALSO
+    RETORNAR VERDADEIRO
+
+FUNÇÃO vns(matriz, n)
+    INICIALIZAR melhor_clique, melhor_tamanho como 0
+    INICIALIZAR clique atual com o primeiro nó
+
+    PARA cada nó i em [1, n-1]
+        ADICIONAR nó i ao clique
+        SE clique é válido (is_clique)
+            SE tamanho do clique > melhor_tamanho
+                ATUALIZAR melhor_clique e melhor_tamanho
+        SENÃO
+            REMOVER nó i do clique
+    RETORNAR melhor_tamanho
+
+FUNÇÃO evaluate_fitness(matriz, n, indivíduo)
+    CONSTRUIR conjunto de vértices ativos a partir do indivíduo
+    SE conjunto é um clique
+        RETORNAR tamanho do conjunto
+    SENÃO
+        RETORNAR 0
+
+FUNÇÃO initialize_population(população, n)
+    PARA cada indivíduo na população
+        PARA cada nó em [0, n-1]
+            DEFINIR nó como ativo ou inativo aleatoriamente
+
+FUNÇÃO crossover(pai1, pai2, filho, n)
+    DEFINIR ponto de corte aleatório
+    PARA cada nó em [0, n-1]
+        SE nó < ponto de corte
+            filho[nó] = pai1[nó]
+        SENÃO
+            filho[nó] = pai2[nó]
+
+FUNÇÃO mutate(indivíduo, n)
+    PARA cada nó em [0, n-1]
+        SE chance < taxa de mutação
+            INVERTER estado do nó
+
+FUNÇÃO evolutionary_algorithm(matriz, n)
+    INICIALIZAR população inicial
+    PARA cada geração em [1, N_GERAÇÕES]
+        AVALIAR fitness de cada indivíduo
+        ENCONTRAR melhor indivíduo da geração
+        CRIAR nova geração:
+            PARA cada novo indivíduo
+                SELECIONAR dois pais aleatórios
+                REALIZAR cruzamento entre os pais
+                REALIZAR mutação no filho
+        ATUALIZAR população com nova geração
+    RETORNAR melhor tamanho de clique encontrado
+
+FUNÇÃO principal()
+    PARA cada arquivo de instância (1 a 10)
+        LER grafo do arquivo
+
+        // Busca com VNS
+        INICIAR cronômetro
+        tamanho_vns = vns(matriz, n)
+        PARAR cronômetro
+        MOSTRAR resultado e tempo para VNS
+
+        // Busca com Algoritmo Evolutivo
+        INICIAR cronômetro
+        tamanho_evolutivo = evolutionary_algorithm(matriz, n)
+        PARAR cronômetro
+        MOSTRAR resultado e tempo para Algoritmo Evolutivo
